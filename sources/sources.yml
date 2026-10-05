@@ -1,0 +1,171 @@
+# Tentmaker source registry. Data, not code.
+#
+# One entry per employer portal, verified by loading the employer's own careers page on
+# 2026-10-05. Add entries with the /add-source skill.
+#
+# Fields
+#   id        stable slug, unique
+#   name      display name
+#   kind      church-tech | ministry | health-sharing | finance | health-system | media |
+#             publisher | business | university | adjacent
+#   platform  a key of `platforms` below
+#   key       what the adapter needs for this platform (see docs/platforms.md); omit if none
+#   careers   the employer's own careers page (always present; this is the link we show)
+#   board     the job-board URL, only when it cannot be built from platform + key
+#   hq        "City ST" where known
+#   work      remote | hybrid | onsite | mixed, as the employer states it; omit if unknown
+#   dotnet    true when the employer's own postings or public code show a .NET stack
+#   support_raised  true when most roles are funded by supporters the staff member recruits
+#   robots    finding for THIS host: allowed | partial | disallowed | none | refused
+#   phase     overrides the platform's phase for this one source
+#   publish   unverified (default when absent) | cleared | blocked. Only the owner sets it.
+#   note      one short line
+
+platforms:
+  greenhouse:      { phase: 1, method: "documented JSON API" }
+  lever:           { phase: 1, method: "documented JSON API" }
+  ashby:           { phase: 1, method: "documented JSON API" }
+  pinpoint:        { phase: 1, method: "documented JSON endpoint" }
+  gem:             { phase: 1, method: "documented JSON API" }
+  smartrecruiters: { phase: 1, method: "documented JSON API, not yet exercised" }
+  workday:         { phase: 2, method: "sitemap plus per-job JSON" }
+  jobvite:         { phase: 2, method: "server-rendered HTML plus sitemap" }
+  jazzhr:          { phase: 2, method: "server-rendered HTML" }
+  icims:           { phase: 2, method: "server-rendered HTML with in_iframe=1" }
+  rippling:        { phase: 2, method: "unofficial JSON" }
+  adp-wfn:         { phase: 2, method: "unofficial JSON" }
+  phenom:          { phase: 2, method: "sitemap plus job pages" }
+  paylocity:       { phase: 2, method: "documented feed, key unconfirmed; else page JSON" }
+  pageup:          { phase: 2, method: "reported server-rendered HTML" }
+  hirebridge:      { phase: 2, method: "reported server-rendered HTML" }
+  applicantpro:    { phase: 2, method: "reported JSON list" }
+  html:            { phase: 2, method: "custom parser per site" }
+  dayforce:        { phase: 3, method: "session with CSRF token" }
+  ukg:             { phase: 3, method: "session; search path may be disallowed" }
+  ukg-ready:       { phase: 3, method: "unknown" }
+  brassring:       { phase: 3, method: "session with token" }
+  adp-myjobs:      { phase: 3, method: "token from discovery call" }
+  paycom:          { phase: 3, method: "unknown, assume browser" }
+  unknown:         { phase: 3, method: "platform not identified yet" }
+  none:            { phase: 0, method: "no job board; link only" }
+
+sources:
+  # ---- church software and faith tech
+  - { id: pushpay, name: Pushpay, kind: church-tech, platform: greenhouse, key: pushpay, careers: "https://pushpay.com/careers/", hq: "Redmond WA", work: mixed }
+  - { id: ministry-brands, name: Ministry Brands, kind: church-tech, platform: workday, key: "ministrybrands.wd1.myworkdayjobs.com/Ministry_Brands", careers: "https://www.ministrybrands.com/careers", hq: "Milton GA", dotnet: true, robots: allowed }
+  - { id: logos, name: Logos (Faithlife), kind: church-tech, platform: paylocity, key: "cd6cba65-20a5-4466-b3ba-5debbe12930b", careers: "https://www.logos.com/careers", hq: "Bellingham WA", work: remote, dotnet: true }
+  - { id: planning-center, name: Planning Center, kind: church-tech, platform: greenhouse, key: planningcenter, careers: "https://www.planningcenter.com/careers", hq: "Carlsbad CA", work: remote }
+  - { id: subsplash, name: Subsplash, kind: church-tech, platform: greenhouse, key: subsplash, careers: "https://www.subsplash.com/careers", work: remote }
+  - { id: tithely, name: Tithe.ly, kind: church-tech, platform: pinpoint, key: tithely, careers: "https://get.tithe.ly/careers", work: remote, robots: allowed }
+  - { id: gloo, name: Gloo, kind: church-tech, platform: rippling, key: gloo-llc, careers: "https://gloo.com/careers", work: remote }
+  - { id: life-church, name: Life.Church and YouVersion, kind: ministry, platform: lever, key: life, careers: "https://www.life.church/careers/", hq: "Edmond OK", work: onsite, note: "Rock RMS team is C#; YouVersion is not" }
+  - { id: rightnow-media, name: RightNow Media, kind: ministry, platform: paycom, careers: "https://www.rightnowmedia.org/careers", hq: "McKinney TX", work: onsite }
+  - { id: rock-rms-board, name: Rock RMS community job board, kind: church-tech, platform: html, careers: "https://www.rockrms.com/jobs", dotnet: true, note: "church dev roles from many employers" }
+  - { id: triumph-tech, name: Triumph Tech, kind: church-tech, platform: html, careers: "https://www.triumph.tech/careers", hq: "Phoenix AZ", work: onsite, dotnet: true }
+  - { id: bema, name: BEMA Services, kind: church-tech, platform: html, careers: "https://bemaservices.com/careers/", hq: "Houston TX", work: remote }
+  - { id: vanco-acs, name: Vanco and ACS Technologies, kind: church-tech, platform: paylocity, key: "10dddce7-8ab8-484d-8acf-3754d32ec78d", careers: "https://www.vancopayments.com/about/careers", hq: "Bloomington MN", note: "ACS careers page points at this same board" }
+  - { id: securegive, name: SecureGive, kind: church-tech, platform: html, careers: "https://www.securegive.com/careers", hq: "Augusta GA", note: "apply by email" }
+  - { id: aplos-velora, name: Aplos (Velora), kind: church-tech, platform: greenhouse, key: velora, careers: "https://www.joinvelora.com/careers", work: remote }
+  - { id: hallow, name: Hallow, kind: church-tech, platform: gem, key: hallow, careers: "https://hallow.com/jobs", work: remote, robots: none }
+  - { id: glorify, name: Glorify, kind: church-tech, platform: none, careers: "https://www.glorify.global/app/careers" }
+  - { id: pray-com, name: Pray.com, kind: church-tech, platform: html, careers: "https://www.pray.com/careers", hq: "Westlake Village CA" }
+  - { id: bibleproject, name: BibleProject, kind: ministry, platform: jazzhr, key: bibleproject, careers: "https://bibleproject.com/careers/", hq: "Portland OR", work: remote, robots: allowed }
+  - { id: overflow, name: Overflow, kind: church-tech, platform: ashby, key: overflow, careers: "https://www.overflow.co/careers" }
+  - { id: brushfire, name: Brushfire, kind: church-tech, platform: smartrecruiters, key: Brushfire, careers: "https://careers.smartrecruiters.com/Brushfire", hq: "Fort Worth TX" }
+  - { id: covenant-eyes, name: Covenant Eyes, kind: church-tech, platform: icims, key: careers-covenanteyes.icims.com, careers: "https://www.covenanteyes.com/careers/", hq: "Owosso MI", work: remote }
+  - { id: givelify, name: Givelify, kind: church-tech, platform: html, careers: "https://www.givelify.com/about-us/careers/", board: "https://www.givelify.com/about-us/careers/job-openings/", work: remote }
+
+  # ---- church and nonprofit adjacent (not Christian companies)
+  - { id: virtuous, name: Virtuous, kind: adjacent, platform: ashby, key: virtuous, careers: "https://virtuous.org/company/careers/", dotnet: true }
+  - { id: blackbaud, name: Blackbaud, kind: adjacent, platform: phenom, key: careers.blackbaud.com, careers: "https://careers.blackbaud.com/us/en/search-results", hq: "Charleston SC", work: remote, dotnet: true, robots: partial }
+  - { id: facts-nelnet, name: FACTS (Nelnet), kind: adjacent, platform: workday, key: "nelnet.wd1.myworkdayjobs.com/MyNelnet", careers: "https://nelnetinc.com/careers/job-opportunities/", hq: "Lincoln NE", work: hybrid, dotnet: true }
+  - { id: momentive, name: Momentive Software, kind: adjacent, platform: workday, key: "communitybrands.wd1.myworkdayjobs.com/Momentive_External_Careers", careers: "https://momentivesoftware.com/jobs/", dotnet: true }
+  - { id: donorperfect, name: DonorPerfect (SofterWare), kind: adjacent, platform: html, careers: "https://www.donorperfect.com/company/careers/", board: "https://www.softerware.com/open-positions/", hq: "Fort Washington PA", work: remote }
+
+  # ---- health care sharing, finance, insurance
+  - { id: samaritan-ministries, name: Samaritan Ministries, kind: health-sharing, platform: unknown, careers: "https://samaritanministries.org/careers", board: "https://samaritanministries.org/about/careers-listings", hq: "Peoria IL", work: mixed }
+  - { id: medi-share, name: Christian Care Ministry (Medi-Share), kind: health-sharing, platform: dayforce, key: "ccm/CANDIDATEPORTAL", careers: "https://www.medishare.com/careers", hq: "Melbourne FL", work: hybrid }
+  - { id: chm, name: Christian Healthcare Ministries, kind: health-sharing, platform: html, careers: "https://chministries.org/employment/", hq: "Barberton OH", work: onsite }
+  - { id: liberty-healthshare, name: Liberty HealthShare, kind: health-sharing, platform: none, careers: "https://www.libertyhealthshare.org/career", hq: "Canton OH" }
+  - { id: zion-healthshare, name: Zion HealthShare, kind: health-sharing, platform: none, careers: "https://zionhealthshare.org/careers/", hq: "St. George UT" }
+  - { id: guidestone, name: GuideStone, kind: finance, platform: workday, key: "guidestone.wd1.myworkdayjobs.com/GuideStone", careers: "https://www.guidestone.org/careers", hq: "Dallas TX", work: hybrid, dotnet: true }
+  - { id: thrivent, name: Thrivent, kind: finance, platform: html, careers: "https://careers.thrivent.com/jobs/", hq: "Minneapolis MN", work: remote, robots: allowed, note: "use the careers site; its Workday /External/ path is disallowed" }
+  - { id: everence, name: Everence, kind: finance, platform: unknown, careers: "https://www.everence.com/careers", board: "https://www.everence.com/about-everence/careers/current-positions", hq: "Goshen IN" }
+  - { id: ncf, name: National Christian Foundation, kind: finance, platform: unknown, careers: "https://www.ncfgiving.com/careers/", board: "https://nationalchristian.atsondemand.com/index.cfm", hq: "Alpharetta GA" }
+  - { id: brotherhood-mutual, name: Brotherhood Mutual, kind: finance, platform: unknown, careers: "https://www.brotherhoodmutual.com/careers/", hq: "Fort Wayne IN" }
+  - { id: church-mutual, name: Church Mutual, kind: finance, platform: adp-myjobs, key: churchmutual, careers: "https://www.churchmutual.com/careers", hq: "Merrill WI", work: hybrid }
+  - { id: guideone, name: GuideOne Insurance, kind: finance, platform: hirebridge, key: "6440", careers: "https://www.guideone.com/careers/current-openings", hq: "West Des Moines IA" }
+  - { id: blue-trust, name: Blue Trust, kind: finance, platform: paylocity, key: "339c16b4-81ae-4835-9262-35a92590c849", careers: "https://www.bluetrust.com/careers", hq: "Alpharetta GA" }
+  - { id: adelfi, name: AdelFi Christian Banking, kind: finance, platform: applicantpro, key: adelficreditunion, careers: "https://www.adelfibanking.com/careers", hq: "San Dimas CA", work: mixed }
+  - { id: eventide, name: Eventide, kind: finance, platform: html, careers: "https://www.eventideinvestments.com/careers/", hq: "Boston MA", work: onsite }
+  - { id: church-pension-group, name: Church Pension Group, kind: finance, platform: jobvite, key: jobs.jobvite.com/cpg, careers: "https://jobs.jobvite.com/cpg/jobs", hq: "New York NY" }
+  - { id: wespath, name: Wespath, kind: finance, platform: unknown, careers: "https://www.wespath.org/about-wespath/careers", hq: "Glenview IL", work: hybrid }
+  - { id: southern-mutual, name: Southern Mutual Church Insurance, kind: finance, platform: none, careers: "https://smcins.com/careers.html", hq: "Columbia SC", work: onsite }
+
+  # ---- faith-rooted health systems
+  - { id: adventhealth, name: AdventHealth, kind: health-system, platform: workday, key: "adventhealth.wd12.myworkdayjobs.com/AH_External_Career_Site", careers: "https://jobs.adventhealth.com/", hq: "Altamonte Springs FL", work: hybrid }
+  - { id: bon-secours, name: Bon Secours Mercy Health, kind: health-system, platform: phenom, key: careers.bsmhealth.org, careers: "https://careers.bsmhealth.org/us/en/search-results", note: "most IT roles are staffed by an outside partner" }
+  - { id: christus, name: CHRISTUS Health, kind: health-system, platform: html, careers: "https://careers.christushealth.org/career-areas/information-technology-jobs", hq: "Irving TX", work: onsite, dotnet: true }
+  - { id: ascension, name: Ascension, kind: health-system, platform: phenom, key: jobs.ascension.org, careers: "https://jobs.ascension.org/us/en" }
+  - { id: baptist-health-jax, name: Baptist Health (Jacksonville), kind: health-system, platform: html, careers: "https://www.baptistjax.com/about-us/careers/job-listings", hq: "Jacksonville FL", work: onsite }
+  - { id: commonspirit, name: CommonSpirit Health, kind: health-system, platform: html, careers: "https://www.commonspirit.careers/employment/remote-information-technology-jobs/35300/8184656/1000000000100/2", work: remote }
+  - { id: providence, name: Providence, kind: health-system, platform: unknown, careers: "https://providence.jobs/", hq: "Renton WA", robots: refused }
+
+  # ---- missions, relief, parachurch
+  - { id: samaritans-purse, name: Samaritan's Purse, kind: ministry, platform: jobvite, key: careers.samaritanspurse.org, careers: "https://careers.samaritanspurse.org/search/information-technology-systems/jobs", hq: "Boone NC", work: onsite, dotnet: true, robots: allowed }
+  - { id: bgea, name: Billy Graham Evangelistic Association, kind: ministry, platform: jobvite, key: careers.billygraham.org, careers: "https://careers.billygraham.org/search/jobs", hq: "Charlotte NC", work: onsite, robots: allowed }
+  - { id: compassion, name: Compassion International, kind: ministry, platform: workday, key: "compassion.wd5.myworkdayjobs.com/CompassionCareers", careers: "https://www.compassion.com/careers/", hq: "Colorado Springs CO", work: remote }
+  - { id: world-vision, name: World Vision US, kind: ministry, platform: dayforce, key: "worldvisionus/CANDIDATEPORTALEXT", careers: "https://www.worldvision.org/about-us/job-opportunities", hq: "Federal Way WA" }
+  - { id: cru, name: Cru, kind: ministry, platform: unknown, careers: "https://www.cru.org/us/en/opportunities/careers.html", hq: "Orlando FL", support_raised: true, note: "has a separate hourly and salaried track" }
+  - { id: wycliffe, name: Wycliffe Bible Translators USA, kind: ministry, platform: workday, key: "wycliffe.wd1.myworkdayjobs.com/WUSA_Paid_Staff", careers: "https://www.wycliffe.org/serve/paid-jobs", hq: "Orlando FL", support_raised: true }
+  - { id: sil, name: SIL Global, kind: ministry, platform: workday, key: "wycliffe.wd1.myworkdayjobs.com/SIL_Careers", careers: "https://wycliffe.wd1.myworkdayjobs.com/SIL_Careers", hq: "Dallas TX", support_raised: true }
+  - { id: abs, name: American Bible Society, kind: ministry, platform: adp-wfn, key: "acfa6cb1-1237-46db-95ed-bcff0e1a7fcd", careers: "https://www.americanbible.org/careers/", hq: "Philadelphia PA" }
+  - { id: ijm, name: International Justice Mission, kind: ministry, platform: workday, key: "ijm.wd5.myworkdayjobs.com/careers-ijm", careers: "https://www.ijm.org/careers", work: remote }
+  - { id: focus, name: Focus on the Family, kind: ministry, platform: dayforce, key: "fotf/CANDIDATEPORTAL", careers: "https://www.focusonthefamily.com/about/careers/", hq: "Colorado Springs CO" }
+  - { id: young-life, name: Young Life, kind: ministry, platform: workday, key: "younglife.wd5.myworkdayjobs.com/YoungLife_Careers", careers: "https://jobs.younglife.org/", hq: "Colorado Springs CO" }
+  - { id: fca, name: Fellowship of Christian Athletes, kind: ministry, platform: adp-myjobs, key: fcajobs, careers: "https://www.teamfca.org", hq: "Kansas City MO" }
+  - { id: intervarsity, name: InterVarsity, kind: ministry, platform: workday, key: "intervarsity.wd1.myworkdayjobs.com/intervarsitychristianfellowshipcareers", careers: "https://intervarsity.org/jobs", hq: "Madison WI", support_raised: true }
+  - { id: imb, name: International Mission Board, kind: ministry, platform: workday, key: "golimitless.wd1.myworkdayjobs.com/Staff_External_career_site", careers: "https://www.imb.org/careers/", hq: "Richmond VA", work: mixed }
+  - { id: namb, name: North American Mission Board, kind: ministry, platform: workday, key: "namb.wd1.myworkdayjobs.com/NAMB", careers: "https://www.namb.net/employment/", hq: "Alpharetta GA" }
+  - { id: navigators, name: The Navigators, kind: ministry, platform: workday, key: "navigators.wd1.myworkdayjobs.com/External", careers: "https://www.navigators.org/careers/", hq: "Colorado Springs CO" }
+  - { id: convoy-of-hope, name: Convoy of Hope, kind: ministry, platform: ukg-ready, careers: "https://convoyofhope.org/careers/", hq: "Springfield MO" }
+  - { id: alliance-defending-freedom, name: Alliance Defending Freedom, kind: ministry, platform: greenhouse, key: alliancedefendingfreedom, careers: "https://adflegal.org/careers/career-opportunities/", hq: "Scottsdale AZ" }
+  - { id: prison-fellowship, name: Prison Fellowship, kind: ministry, platform: jazzhr, key: prisonfellowship, careers: "https://www.prisonfellowship.org/about/careers/", hq: "Lansdowne VA", work: remote }
+  - { id: faith-comes-by-hearing, name: Faith Comes By Hearing, kind: ministry, platform: ukg-ready, careers: "https://www.faithcomesbyhearing.com/about/careers", hq: "Albuquerque NM" }
+  - { id: twr, name: TWR, kind: ministry, platform: html, careers: "https://twr.org/opportunities", hq: "Cary NC", support_raised: true }
+  - { id: mercy-ships, name: Mercy Ships, kind: ministry, platform: dayforce, key: "mercyships/CANDIDATEPORTAL", careers: "https://www.mercyships.org/careers/", hq: "Garden Valley TX" }
+  - { id: museum-of-the-bible, name: Museum of the Bible, kind: ministry, platform: unknown, careers: "https://www.museumofthebible.org/careers", hq: "Washington DC" }
+
+  # ---- media and publishing
+  - { id: emf-klove, name: K-LOVE and Air1 (EMF), kind: media, platform: icims, key: careers-kloveair1.icims.com, careers: "https://www.klove.com/about/careers", hq: "Franklin TN" }
+  - { id: salem-media, name: Salem Media Group, kind: media, platform: icims, key: careers-salemmedia.icims.com, careers: "https://salemmedia.com/careers/", hq: "Irving TX", work: onsite }
+  - { id: cbn, name: CBN, kind: media, platform: ukg, key: "recruiting.ultipro.com/CHR1001CBN/eafebde8-bc33-4074-baca-15ec2ca2749b", careers: "https://www.cbn.com/careers", hq: "Virginia Beach VA", robots: refused }
+  - { id: answers-in-genesis, name: Answers in Genesis, kind: ministry, platform: paycom, careers: "https://answersingenesis.org/jobs/", hq: "Petersburg KY", work: onsite }
+  - { id: our-daily-bread, name: Our Daily Bread Ministries, kind: publisher, platform: unknown, careers: "https://www.ourdailybread.org/careers/", board: "https://jobs.ourdailybread.org/", hq: "Grand Rapids MI", note: "ADP Workforce Now; cid not captured" }
+  - { id: moody, name: Moody Bible Institute, kind: university, platform: unknown, careers: "https://www.moodybible.org/careers/", hq: "Chicago IL" }
+  - { id: angel-studios, name: Angel Studios, kind: media, platform: paylocity, key: "3af7f13c-9da0-431d-88ee-84db2b3aa074", careers: "https://www.angel.com/careers", hq: "Provo UT", work: onsite }
+  - { id: crossway, name: Crossway, kind: publisher, platform: ukg, key: "recruiting2.ultipro.com/CRO1011CRWY/5e1d2240-5d84-43cf-8885-baeb9d40d033", careers: "https://www.crossway.org/jobs/", hq: "Wheaton IL", robots: refused }
+  - { id: tyndale, name: Tyndale House, kind: publisher, platform: paylocity, key: "7a31154f-f429-4fb3-a0ac-562c23a97ed5", careers: "https://www.tyndale.com/careers", hq: "Carol Stream IL" }
+  - { id: harpercollins-christian, name: HarperCollins Christian Publishing, kind: publisher, platform: unknown, careers: "https://www.harpercollinschristian.com/careers/", hq: "Nashville TN" }
+  - { id: lifeway, name: Lifeway, kind: publisher, platform: icims, key: hq-lifeway.icims.com, careers: "https://www.lifeway.com/en/about/careers", hq: "Nashville TN", work: remote, robots: allowed }
+  - { id: ramsey, name: Ramsey Solutions, kind: media, platform: jobvite, key: careers.ramseysolutions.com, careers: "https://careers.ramseysolutions.com/search/jobs", hq: "Franklin TN", work: onsite }
+
+  # ---- Christian-owned businesses
+  - { id: chick-fil-a, name: Chick-fil-A, kind: business, platform: html, careers: "https://careers.chick-fil-a.com/corporate/jobs/categories/Digital%20Transformation%20and%20Technology", hq: "Atlanta GA", work: hybrid }
+  - { id: hobby-lobby, name: Hobby Lobby, kind: business, platform: brassring, key: "25879/5295", careers: "https://careers.hobbylobby.com/current-openings/technology", hq: "Oklahoma City OK", work: onsite }
+  - { id: mardel, name: Mardel, kind: business, platform: brassring, careers: "https://careers.mardel.com/", hq: "Oklahoma City OK" }
+  - { id: interstate-batteries, name: Interstate Batteries, kind: business, platform: workday, key: "interstate.wd1.myworkdayjobs.com/InterstateBatteries-Careers", careers: "https://www.interstatebatteries.com/careers", hq: "Dallas TX" }
+  - { id: covenant-logistics, name: Covenant Logistics, kind: business, platform: unknown, careers: "https://www.covenantlogistics.com/employment", board: "https://covenantlogistics.elevate-ats.com/", hq: "Chattanooga TN" }
+  - { id: dayspring, name: DaySpring, kind: business, platform: unknown, careers: "https://www.dayspring.com/about/job-openings-eoe", hq: "Siloam Springs AR" }
+  - { id: altard-state, name: Altar'd State, kind: business, platform: unknown, careers: "https://www.altardstate.com/careers/work-with-us/" }
+  - { id: polydeck, name: Polydeck, kind: business, platform: ukg-ready, careers: "https://www.polydeck.com/careers/", hq: "Spartanburg SC", robots: refused }
+
+  # ---- universities
+  - { id: liberty-university, name: Liberty University, kind: university, platform: workday, key: "liberty.wd5.myworkdayjobs.com/lu_job_board_staff", careers: "https://www.liberty.edu/jobs/", hq: "Lynchburg VA", work: mixed }
+  - { id: grand-canyon-education, name: Grand Canyon Education, kind: university, platform: workday, key: "gcu.wd1.myworkdayjobs.com/GCE", careers: "https://www.gce.com/careers.html", hq: "Phoenix AZ", work: mixed }
+  - { id: columbia-international, name: Columbia International University, kind: university, platform: html, careers: "https://ciu.edu/about/employment/", hq: "Columbia SC", work: onsite }
+  - { id: charleston-southern, name: Charleston Southern University, kind: university, platform: paycom, careers: "https://www.charlestonsouthern.edu/offices/careers/", hq: "North Charleston SC", robots: refused }
+  - { id: bju, name: Bob Jones University and BJU Press, kind: university, platform: html, careers: "https://bju.careers/bju-press/", hq: "Greenville SC", work: onsite }
+  - { id: anderson-university, name: Anderson University, kind: university, platform: workday, key: "andersonuniversity.wd1.myworkdayjobs.com/AndersonUniversity", careers: "https://andersonuniversity.edu/resources/hr/jobs", hq: "Anderson SC" }
+  - { id: north-greenville, name: North Greenville University, kind: university, platform: paycom, careers: "https://www.ngu.edu/life-at-ngu/jobs-at-ngu/", hq: "Tigerville SC" }
+  - { id: regent, name: Regent University, kind: university, platform: pageup, key: "1152", careers: "https://www.regent.edu/about-us/employment/", board: "https://careers.pageuppeople.com/1152/cw/en-us/listing/", hq: "Virginia Beach VA", work: onsite }

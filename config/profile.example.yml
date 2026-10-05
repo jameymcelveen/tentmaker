@@ -1,0 +1,11 @@
+# A search profile is a saved set of filters. Copy this file to profile.local.yml (which is
+# gitignored) and fill in your own values. Nothing personal belongs in the committed copy.
+
+home: { city: "Anytown", state: "ST", radius_miles: 50 }
+also_acceptable: []            # extra cities you would commute or move to
+work_modes: [remote, hybrid, onsite, unknown]
+levels: [senior, staff, lead, principal]
+stacks: []                     # for example: [dotnet, react, sql]
+employer_kinds: []             # empty means all
+pay_floor: 0                   # annual, in your currency; 0 means no floor
+hide_support_raised: true

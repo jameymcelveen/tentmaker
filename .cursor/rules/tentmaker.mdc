@@ -1,0 +1,17 @@
+---
+description: Tentmaker ground rules. Applies to every change in this repo.
+alwaysApply: true
+---
+
+Read `AGENTS.md` at the repo root before any change. It is the only source of rules, and
+nested `AGENTS.md` files add area rules.
+
+Before anything else in a task:
+
+1. Run `git remote -v` and confirm it shows `github.com:jameymcelveen/tentmaker`. Stop if not.
+2. Read the spec in `docs/specs/` for the slice you were asked to build. No spec, no code.
+3. Work on a branch named `slice/NNN-short-name`. Never commit to `main`. Never push
+   without asking.
+
+Plain ASCII only in everything you write. Run `python3 scripts/check_ascii.py` before you
+say you are done.

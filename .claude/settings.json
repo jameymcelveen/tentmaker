@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git remote -v)",
+      "Bash(git status)",
+      "Bash(git status *)",
+      "Bash(git diff)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git branch *)",
+      "Bash(git switch *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(dotnet build)",
+      "Bash(dotnet build *)",
+      "Bash(dotnet test)",
+      "Bash(dotnet test *)",
+      "Bash(dotnet format)",
+      "Bash(dotnet format *)",
+      "Bash(dotnet ef *)",
+      "Bash(docker compose *)",
+      "Bash(npm ci)",
+      "Bash(npm run *)",
+      "Bash(python3 scripts/check_ascii.py)",
+      "Bash(python3 scripts/check_ascii.py *)"
+    ],
+    "ask": [
+      "Bash(git push)",
+      "Bash(git push *)",
+      "Bash(dotnet add *)",
+      "Bash(npm install *)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./config/profile.local.yml)"
+    ]
+  }
+}
